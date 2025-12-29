@@ -1,0 +1,15 @@
+{
+  "name": "mindmap-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"pnpm run dev:frontend\" \"pnpm run dev:backend\"",
+    "dev:frontend": "cd frontend && pnpm run dev",
+    "dev:backend": "cd backend && uv run uvicorn app.main:app --reload --port 8000",
+    "install:all": "cd frontend && pnpm install && cd ../backend && uv sync",
+    "build": "cd frontend && pnpm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

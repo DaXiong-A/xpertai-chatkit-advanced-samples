@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* React Flow styles */
+.react-flow__node-mindmapNode {
+  padding: 0;
+  border-radius: 8px;
+  font-size: 14px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.react-flow__node-mindmapNode.selected {
+  box-shadow: 0 0 0 2px #6366f1, 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+/* Light theme */
+.light {
+  color: #213547;
+  background-color: #f9fafb;
+}
+
+.light .react-flow__background {
+  background-color: #f9fafb;
+}
+
+/* Dark theme */
+.dark {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1a1a1a;
+}
+
+.dark .react-flow__background {
+  background-color: #1a1a1a;
+}

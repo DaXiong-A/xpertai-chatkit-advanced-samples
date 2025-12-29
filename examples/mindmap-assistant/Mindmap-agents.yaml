@@ -1,0 +1,250 @@
+team:
+  name: agents
+  type: agent
+  title: mindmap assistant
+  description: advance sample
+  avatar: null
+  starters: null
+  options:
+    agent:
+      Agent_w0Tn4SqWTJ:
+        position:
+          x: 320
+          y: 120
+    workflow:
+      Middleware_H5E7tXf20m:
+        position:
+          x: 140
+          y: 380
+      Middleware_Dx9adGD9fj:
+        position:
+          x: 440
+          y: 380
+  agentConfig: null
+  memory: null
+  summarize: null
+  features: null
+  version: "3"
+  agent:
+    key: Agent_w0Tn4SqWTJ
+  copilotModel:
+    modelType: llm
+    model: deepseek-chat
+    options:
+      temperature: 0.2
+      maxRetries: 6
+      max_tokens: 4096
+      top_p: 1
+      top_logprobs: 0
+      frequency_penalty: 0
+  knowledgebases: []
+  toolsets: []
+  tags: []
+nodes:
+  - type: agent
+    key: Agent_w0Tn4SqWTJ
+    position:
+      x: 320
+      y: 120
+    entity:
+      key: Agent_w0Tn4SqWTJ
+      name: hi
+      title: Hello
+      description: This is a test agent
+      avatar: null
+      prompt: |-
+        You are a mindmap assistant, helping users organize thoughts and ideas into a visual mindmap.
+
+          ## Mindmap Data Structure
+
+          The mindmap consists of nodes, each node structure is as follows:
+          ```json
+          {
+            "id": "unique identifier",
+            "text": "text displayed on the node",
+            "parent_id": "parent node ID, root node is null",
+            "children": ["array of child node IDs"],
+            "level": 0,  // level depth, root node is 0
+            "collapsed": false
+          }
+
+          Complete mindmap structure:
+          {
+            "id": "mindmap-id",
+            "title": "mindmap title",
+            "root_id": "root node ID",
+            "nodes": {
+              "node-id": { ...node object }
+            }
+          }
+
+          Tool Usage Rules
+
+          1. get_selected_nodes (get selected nodes)
+
+          When the user mentions "selected nodes", "this node", "these nodes", or "current node", you must first call this tool to get which nodes the user has selected.
+
+          2. update_mindmap (update mindmap)
+
+          After modifying the mindmap, call this tool to synchronize the complete mindmap data to the interface.
+
+          When adding nodes, note:
+          - Generate a unique ID, format: node_ + 8 random characters, e.g., node_a1b2c3d4
+          - Set the correct parent_id
+          - Add the new node ID to the parent node's children array
+          - Set level = parent node.level + 1
+          - children initially is an empty array []
+          - collapsed initially is false
+
+          When deleting nodes, note:
+          - Delete the node and all its descendant nodes from nodes
+          - Remove the node ID from the parent node's children array
+          - Cannot delete the root node
+
+          3. focus_node (focus node)
+
+          After adding a new node, you can call this tool to make the interface automatically focus on the new node.
+
+          Workflow Example
+
+          User: "Add 3 child nodes about market analysis to the selected node"
+
+          1. Call get_selected_nodes to get the selected node
+          2. Based on the returned node information, generate 3 new child nodes
+          3. Call update_mindmap to update the entire mindmap
+          4. Reply to the user about what was done
+
+          Response Style
+
+          - Concise and clear, do not be verbose
+          - After modification, briefly explain what changes were made
+          - If the user's intention is unclear, ask for confirmation first
+      promptTemplates: null
+      parameters: null
+      outputVariables: null
+      options:
+        vision:
+          enabled: false
+      copilotModel:
+        modelType: llm
+        model: deepseek-chat
+        options:
+          temperature: 0.2
+          maxRetries: 6
+          max_tokens: 4096
+      leaderKey: null
+      collaboratorNames: []
+      toolsetIds: []
+      knowledgebaseIds: []
+    hash: 1736f3eb81eb7b460fbba5a0cae93b6be6ac6f7e9e15d8acff19619f68b533bd
+  - type: workflow
+    key: Middleware_H5E7tXf20m
+    position:
+      x: 140
+      y: 380
+    entity:
+      type: middleware
+      key: Middleware_H5E7tXf20m
+      title: Middleware
+      provider: ClientToolMiddleware
+      options:
+        clientTools:
+          - schema: |-
+              {
+                  "type": "object",
+                  "properties": {},
+                  "required": []
+              }
+            name: get_selected_nodes
+            description: Get the currently selected nodes in the mindmap. Returns nodeIds
+              array and detailed node information. Call this when user refers to
+              "selected nodes", "this node", or "these nodes".
+    hash: 0a3c8cb3ed6b49e9b778627c52231527648a9434749e91241c79174449852a69
+  - type: workflow
+    key: Middleware_Dx9adGD9fj
+    position:
+      x: 440
+      y: 380
+    entity:
+      type: middleware
+      key: Middleware_Dx9adGD9fj
+      title: Middleware 2
+      provider: ClientEffectMiddleware
+      options:
+        clientEffects:
+          - schema: >-
+              {
+                  "type": "object",
+                  "properties": {
+                    "mindmap": {
+                      "type": "object",
+                      "description": "The complete mindmap object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "title": { "type": "string" },
+                        "root_id": { "type": "string" },
+                        "nodes": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "text": { "type": "string" },
+                              "parent_id": { "type": ["string", "null"] },
+                              "children": { "type": "array", "items": { "type": "string" } },
+                              "level": { "type": "integer" },
+                              "collapsed": { "type": "boolean" }
+                            },
+                            "required": ["id", "text", "children", "level"]
+                          }
+                        }
+                      },
+                      "required": ["id", "title", "root_id", "nodes"]
+                    }
+                  },
+                  "required": ["mindmap"]
+              }
+            name: update_mindmap
+            description: "Update the entire mindmap in the UI. Use this after adding,
+              deleting, or modifying nodes. "
+            result: '{"success": true}  '
+            __hover__: false
+          - schema: |2-
+               {
+                  "type": "object",
+                  "properties": {
+                    "nodeId": {
+                      "type": "string",
+                      "description": "The ID of the node to focus on"
+                    }
+                  },
+                  "required": ["nodeId"]
+                }
+            name: focus_node
+            description: " Focus and center the view on a specific node in the mindmap."
+            result: '{"success": true}   '
+          - schema: |2-
+                {
+                  "type": "object",
+                  "properties": {
+                    "nodeIds": {
+                      "type": "array",
+                      "items": { "type": "string" },
+                      "description": "Array of node IDs to highlight"
+                    }
+                  },
+                  "required": ["nodeIds"]
+                }
+            name: highlight_nodes
+            description: Highlight specific nodes in the mindmap to draw user attention.
+            result: '{"success": true}  '
+    hash: c7eb327b7aaf5186ffd2fdb70060ed975cfcdd4749e93d2df90ac0a8d32defdb
+connections:
+  - type: workflow
+    key: Agent_w0Tn4SqWTJ/Middleware_H5E7tXf20m
+    from: Agent_w0Tn4SqWTJ
+    to: Middleware_H5E7tXf20m
+  - type: workflow
+    key: Agent_w0Tn4SqWTJ/Middleware_Dx9adGD9fj
+    from: Agent_w0Tn4SqWTJ
+    to: Middleware_Dx9adGD9fj
