@@ -1,7 +1,7 @@
 {
-  "name": "chatkit-demo-1",
+  "name": "chatkit-demo-deep-researcher",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
