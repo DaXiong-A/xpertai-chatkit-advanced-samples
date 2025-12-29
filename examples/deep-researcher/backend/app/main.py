@@ -5,14 +5,29 @@ from typing import Any, Mapping, MutableMapping, Tuple
 
 import httpx
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 APP_NAME = "Deep Researcher Backend"
 APP_VERSION = "0.1.0"
 COOKIE_NAME = "dr_uid"
 
+
 app = FastAPI(title=APP_NAME, version=APP_VERSION)
 
+def cors_config() -> tuple[list[str], str | None, bool]:
+    return ([], ".*", True)
+
+_cors_origins, _cors_origin_regex, _cors_allow_credentials = cors_config()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_cors_origins,
+    allow_origin_regex=_cors_origin_regex,
+    allow_credentials=_cors_allow_credentials,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def respond(payload: Mapping[str, Any], status_code: int, cookie_value: str | None = None) -> JSONResponse:
     response = JSONResponse(content=payload, status_code=status_code)
