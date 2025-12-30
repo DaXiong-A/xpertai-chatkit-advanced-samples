@@ -97,6 +97,16 @@ const chatkit = useChatKit({
   },
   onEffect: ({ name, data }) => {
     console.log(`Effect triggered: ${name}`, data)
+  },
+  widgets: {
+    async onAction(action: {
+            type: string;
+            payload?: Record<string, unknown>;
+        }, widgetItem: {
+            id: string;
+        }) {
+      console.log('Widget action received:', action, widgetItem)
+    },
   }
 })
 </script>
@@ -104,7 +114,7 @@ const chatkit = useChatKit({
 <template>
   <div class="app-shell">
     <div class="left-panel">
-      <HelloWorld msg="Vite + Vue" />
+      <HelloWorld msg="Vite + Vue" :assistantId="assistantId" />
     </div>
     <ChatKit :control="chatkit.control" class="chat-panel" />
   </div>
