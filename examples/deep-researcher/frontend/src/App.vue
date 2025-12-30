@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import { ChatKit, useChatKit } from '@xpert-ai/chatkit-vue'
-import { type ChatKitOptions, type ClientToolMessageInput, filterPlaygroundOptions } from '@xpert-ai/chatkit-types'
+import { type ChatKitOptions, type ClientToolMessageInput, filterPlaygroundOptions, type SupportedLocale } from '@xpert-ai/chatkit-types'
 
 // ============================================================================
 // Playground config - copied from https://chatkit.studio/playground
@@ -9,6 +9,7 @@ import { type ChatKitOptions, type ClientToolMessageInput, filterPlaygroundOptio
 // Other options (e.g., threadItemActions.feedback) are automatically filtered out
 // ============================================================================
 const playgroundConfig: Partial<ChatKitOptions> = {
+  locale: 'zh' as SupportedLocale,
   theme: {},
   composer: {
     attachments: {

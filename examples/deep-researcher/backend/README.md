@@ -29,7 +29,7 @@ Health check: http://localhost:8011/health
 Copy `.env.example` to `.env` and fill in secrets.
 
 - `XPERTAI_API_KEY`: Backend secret used to call ChatKit API.
-- `XPERTAI_API_URL` (optional): Override ChatKit API base. Falls back to `VITE_XPERTAI_API_URL`, then `https://api.openai.com`.
+- `XPERTAI_API_URL` (optional): Override ChatKit API base. Falls back to `VITE_XPERTAI_API_URL`, then `https://api.xpertai.cn`.
 - `PORT`: Optional. Defaults to `8011`.
 - `VITE_XPERTAI_API_URL`: Kept for compatibility with the frontend environment file.
 

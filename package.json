@@ -6,8 +6,7 @@
   "scripts": {
     "build": "pnpm -r run build",
     "dev": "concurrently --kill-others-on-fail --names backend,frontend \"pnpm -C examples/chatkit-host run serve\" \"pnpm -C examples/deep-researcher run backend\" \"pnpm -C examples/deep-researcher run frontend\"",
-    "mindmap-assistant": "cd examples/mindmap-assistant && pnpm run dev",
-    "mindmap-assistant:install": "cd examples/mindmap-assistant && pnpm run install:all"
+    "mindmap-assistant": "cd examples/mindmap-assistant && pnpm run dev"
   },
   "dependencies": {
     "concurrently": "^9.2.1"

@@ -46,7 +46,7 @@ def chatkit_api_base() -> str:
     override = os.getenv("XPERTAI_API_URL") or os.getenv("VITE_XPERTAI_API_URL")
     if override:
         return override.rstrip("/")
-    return "https://api.openai.com"
+    return "https://api.xpertai.cn"
 
 
 def resolve_user(cookies: Mapping[str, str]) -> Tuple[str, str | None]:
@@ -112,7 +112,6 @@ async def create_session(request: Request) -> JSONResponse:
                 "/v1/chatkit/sessions",
                 headers={
                     "Authorization": f"Bearer {api_key}",
-                    "OpenAI-Beta": "chatkit_beta=v1",
                     "Content-Type": "application/json",
                 },
                 json={"assistant": {"id": assistant_id}, "user": user_id},
