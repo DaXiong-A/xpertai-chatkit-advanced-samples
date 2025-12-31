@@ -102,91 +102,91 @@ export function createSampleMindmap(): Mindmap {
   // Root node
   nodes[rootId] = {
     id: rootId,
-    text: 'Project Planning',
+    text: 'Startup Business Plan',
     parentId: null,
-    children: ['goals', 'timeline', 'resources'],
+    children: ['product', 'market', 'funding'],
     level: 0,
     collapsed: false,
   };
 
   // Level 1 nodes
-  nodes['goals'] = {
-    id: 'goals',
-    text: 'Goals',
+  nodes['product'] = {
+    id: 'product',
+    text: 'Product',
     parentId: rootId,
-    children: ['goal1', 'goal2'],
+    children: ['mvp', 'features'],
     level: 1,
     collapsed: false,
   };
 
-  nodes['timeline'] = {
-    id: 'timeline',
-    text: 'Timeline',
+  nodes['market'] = {
+    id: 'market',
+    text: 'Market',
     parentId: rootId,
-    children: ['phase1', 'phase2'],
+    children: ['target', 'competitors'],
     level: 1,
     collapsed: false,
   };
 
-  nodes['resources'] = {
-    id: 'resources',
-    text: 'Resources',
+  nodes['funding'] = {
+    id: 'funding',
+    text: 'Funding',
     parentId: rootId,
-    children: ['team', 'budget'],
+    children: ['seed', 'investors'],
     level: 1,
     collapsed: false,
   };
 
   // Level 2 nodes
-  nodes['goal1'] = {
-    id: 'goal1',
-    text: 'Increase Revenue',
-    parentId: 'goals',
+  nodes['mvp'] = {
+    id: 'mvp',
+    text: 'MVP',
+    parentId: 'product',
     children: [],
     level: 2,
     collapsed: false,
   };
 
-  nodes['goal2'] = {
-    id: 'goal2',
-    text: 'Improve UX',
-    parentId: 'goals',
+  nodes['features'] = {
+    id: 'features',
+    text: 'Core Features',
+    parentId: 'product',
     children: [],
     level: 2,
     collapsed: false,
   };
 
-  nodes['phase1'] = {
-    id: 'phase1',
-    text: 'Q1 2025',
-    parentId: 'timeline',
+  nodes['target'] = {
+    id: 'target',
+    text: 'Target Users',
+    parentId: 'market',
     children: [],
     level: 2,
     collapsed: false,
   };
 
-  nodes['phase2'] = {
-    id: 'phase2',
-    text: 'Q2 2025',
-    parentId: 'timeline',
+  nodes['competitors'] = {
+    id: 'competitors',
+    text: 'Competitors',
+    parentId: 'market',
     children: [],
     level: 2,
     collapsed: false,
   };
 
-  nodes['team'] = {
-    id: 'team',
-    text: 'Team Members',
-    parentId: 'resources',
+  nodes['seed'] = {
+    id: 'seed',
+    text: 'Seed Round',
+    parentId: 'funding',
     children: [],
     level: 2,
     collapsed: false,
   };
 
-  nodes['budget'] = {
-    id: 'budget',
-    text: 'Budget Allocation',
-    parentId: 'resources',
+  nodes['investors'] = {
+    id: 'investors',
+    text: 'Investors',
+    parentId: 'funding',
     children: [],
     level: 2,
     collapsed: false,
@@ -194,7 +194,7 @@ export function createSampleMindmap(): Mindmap {
 
   return {
     id: 'sample-mindmap',
-    title: 'Project Planning',
+    title: 'Startup Business Plan',
     rootId,
     nodes,
     createdAt: new Date().toISOString(),

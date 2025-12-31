@@ -3,18 +3,23 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* 主题色 - 紫色系 */
+  --primary-50: #f5f3ff;
+  --primary-100: #ede9fe;
+  --primary-200: #ddd6fe;
+  --primary-300: #c4b5fd;
+  --primary-400: #a78bfa;
+  --primary-500: #8b5cf6;
+  --primary-600: #7c3aed;
+  --primary-700: #6d28d9;
 }
 
 body {
@@ -26,41 +31,197 @@ body {
 #root {
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
-/* React Flow styles */
-.react-flow__node-mindmapNode {
-  padding: 0;
-  border-radius: 8px;
-  font-size: 14px;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.react-flow__node-mindmapNode.selected {
-  box-shadow: 0 0 0 2px #6366f1, 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.react-flow__edge-path {
-  stroke-width: 2;
-}
-
-/* Light theme */
+/* ============================================
+   Light Theme - 统一背景
+   ============================================ */
 .light {
-  color: #213547;
-  background-color: #f9fafb;
+  color: #1f2937;
+  background: #f8f7fc;
+}
+
+.light .app-container {
+  background: #f8f7fc;
+}
+
+/* 左侧画布区域 - 主内容区 */
+.light .canvas-area {
+  background: transparent;
 }
 
 .light .react-flow__background {
-  background-color: #f9fafb;
+  background: transparent !important;
 }
 
-/* Dark theme */
+/* 工具栏 */
+.light .toolbar {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* 右侧聊天面板 - 无边框融合 */
+.light .chat-panel {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  border-left: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* ============================================
+   Dark Theme - 统一背景
+   ============================================ */
 .dark {
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.9);
+  background: #0f0f14;
+}
+
+.dark .app-container {
+  background: #0f0f14;
+}
+
+.dark .canvas-area {
+  background: transparent;
 }
 
 .dark .react-flow__background {
-  background-color: #1a1a1a;
+  background: transparent !important;
+}
+
+.dark .toolbar {
+  background: rgba(20, 20, 28, 0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.dark .chat-panel {
+  background: rgba(20, 20, 28, 0.4);
+  backdrop-filter: blur(8px);
+  border-left: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* ============================================
+   React Flow 节点样式
+   ============================================ */
+.react-flow__node-mindmapNode {
+  padding: 0;
+  border-radius: 12px;
+  font-size: 14px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.react-flow__node-mindmapNode:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.react-flow__node-mindmapNode.selected {
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9), 0 0 20px rgba(251, 191, 36, 0.7), 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* 连接线 */
+.react-flow__edge-path {
+  stroke-width: 2;
+  stroke: #a78bfa;
+}
+
+.dark .react-flow__edge-path {
+  stroke: #8b5cf6;
+}
+
+/* React Flow 控制按钮 */
+.react-flow__controls {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.light .react-flow__controls-button {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.dark .react-flow__controls-button {
+  background: rgba(30, 30, 40, 0.8);
+  border-color: rgba(255, 255, 255, 0.06);
+  color: white;
+}
+
+/* ============================================
+   工具栏按钮样式
+   ============================================ */
+.toolbar-btn {
+  @apply p-2 rounded-lg transition-all duration-150;
+}
+
+.light .toolbar-btn {
+  @apply hover:bg-black/5 active:bg-black/10;
+}
+
+.dark .toolbar-btn {
+  @apply hover:bg-white/5 active:bg-white/10;
+}
+
+.toolbar-btn:disabled {
+  @apply opacity-30 cursor-not-allowed;
+}
+
+/* 分隔线 */
+.toolbar-divider {
+  @apply w-px h-5 mx-2;
+  background: rgba(128, 128, 128, 0.15);
+}
+
+/* ============================================
+   标题和徽章
+   ============================================ */
+.app-title {
+  @apply text-base font-semibold;
+  color: #1f2937;
+}
+
+.dark .app-title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ai-badge {
+  @apply text-xs font-medium px-2 py-0.5 rounded-full;
+  background: rgba(139, 92, 246, 0.1);
+  color: #7c3aed;
+}
+
+.dark .ai-badge {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+}
+
+/* ============================================
+   ChatKit 面板容器
+   ============================================ */
+.chat-panel-wrapper {
+  @apply h-full flex flex-col;
+}
+
+/* ============================================
+   滚动条美化
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.35);
 }

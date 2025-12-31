@@ -1,7 +1,7 @@
 team:
   name: agents
   type: agent
-  title: mindmap assistant
+  title: Mindmap Assistant
   description: advance sample
   avatar: null
   starters: null

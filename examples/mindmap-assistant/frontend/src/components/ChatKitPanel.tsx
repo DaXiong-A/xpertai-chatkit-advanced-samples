@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useEffect } from 'react';
 import { useChatKit, ChatKit } from '@xpert-ai/chatkit-react';
-import type { ChatKitOptions, ClientToolMessageInput } from '@xpert-ai/chatkit-types';
+import type { ChatKitOptions, ClientToolMessageInput, SupportedLocale } from '@xpert-ai/chatkit-types';
 import { useMindmapStore } from '../store/useMindmapStore';
 import { useAppStore } from '../store/useAppStore';
 import { XPERT_API_URL, XPERT_ID, CHATKIT_FRAME_URL, API_BASE_URL } from '../lib/config';
@@ -43,13 +43,16 @@ export function ChatKitPanel() {
       tool_call_id?: string;
       id?: string;
     }): Promise<ClientToolMessageInput> => {
+      // Use the correct tool call id - prefer id over tool_call_id
+      const callId = id || tool_call_id;
+
       // Use refs to get latest values
       const currentSelectedNodeIds = selectedNodeIdsRef.current;
       const currentMindmap = mindmapRef.current;
 
-      console.log('[MindmapAssistant] Client tool called:', name, params);
+      console.log('[MindmapAssistant] Client tool called:', name);
+      console.log('[MindmapAssistant] Tool call id:', callId, '(id:', id, ', tool_call_id:', tool_call_id, ')');
       console.log('[MindmapAssistant] Current selected nodes:', currentSelectedNodeIds);
-      console.log('[MindmapAssistant] Current mindmap:', currentMindmap);
 
       // Get selected nodes
       if (name === 'get_selected_nodes') {
@@ -69,7 +72,7 @@ export function ChatKitPanel() {
         console.log('[MindmapAssistant] Returning selected nodes:', result);
 
         return {
-          tool_call_id: tool_call_id || id,
+          tool_call_id: callId,
           name,
           status: 'success',
           content: JSON.stringify(result),
@@ -78,7 +81,7 @@ export function ChatKitPanel() {
 
       // Default response for unknown tools
       return {
-        tool_call_id: tool_call_id || id,
+        tool_call_id: callId,
         name,
         status: 'success',
         content: 'OK',
@@ -117,49 +120,59 @@ export function ChatKitPanel() {
     [setMindmap, focusNode]
   );
 
-  // ChatKit options
+  // ChatKit options - Minimal theme to blend with app
   const chatkitOptions = useMemo<Partial<ChatKitOptions>>(
     () => ({
+      locale: 'en' as SupportedLocale,
       theme: {
         colorScheme: theme,
-        radius: 'round',
+        radius: 'soft',
         density: 'normal',
+        color: {
+          accent: {
+            primary: '#8b5cf6',
+            level: 1,
+          },
+        },
       },
       header: {
         enabled: true,
         title: {
           enabled: true,
-          text: 'AI Assistant',
+          text: 'Mindmap Assistant',
         },
       },
       startScreen: {
         greeting: 'Hi! I can help you organize your thoughts into a mindmap.',
         prompts: [
           {
-            icon: 'write',
-            label: 'Add ideas to selected node',
-            prompt: 'Add some ideas to the selected node',
+            icon: 'sparkle',
+            label: 'Expand selected node',
+            prompt: 'Please expand the selected node with 3-5 related sub-nodes',
           },
           {
             icon: 'lightbulb',
-            label: 'Brainstorm on a topic',
-            prompt: 'Help me brainstorm ideas about',
+            label: 'Brainstorm',
+            prompt: 'Help me brainstorm ideas around the current topic',
           },
           {
-            icon: 'sparkle',
-            label: 'Expand this mindmap',
-            prompt: 'Expand this mindmap with more details',
+            icon: 'write',
+            label: 'Organize structure',
+            prompt: 'Please analyze and optimize the structure of this mindmap',
+          },
+          {
+            icon: 'circle-question',
+            label: 'Deep analysis',
+            prompt: 'Please analyze the mindmap content and provide suggestions',
           },
         ],
       },
       composer: {
-        placeholder: 'Ask me to add, modify, or organize nodes...',
+        placeholder: 'Describe what you want to add or modify...',
         attachments: { enabled: false },
       },
       history: {
         enabled: true,
-        showDelete: true,
-        showRename: true,
       },
     }),
     [theme]
@@ -203,6 +216,8 @@ export function ChatKitPanel() {
     },
     onReady: () => {
       console.log('[MindmapAssistant] ChatKit ready');
+      console.log('[MindmapAssistant] chatkit.control.options:', chatkit.control.options);
+      console.log('[MindmapAssistant] onClientTool exists:', !!chatkit.control.options.onClientTool);
       setChatkit(chatkit);
     },
     onResponseStart: () => {
@@ -220,7 +235,7 @@ export function ChatKitPanel() {
   });
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col relative z-10">
       <ChatKit control={chatkit.control} className="flex-1" />
     </div>
   );

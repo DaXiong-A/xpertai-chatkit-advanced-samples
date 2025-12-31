@@ -1,8 +1,9 @@
 import { memo, useState, useCallback, useRef, useEffect } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { ChevronRight, ChevronDown } from 'lucide-react';
+import { ChevronRight, ChevronDown, Sparkles } from 'lucide-react';
 import type { MindmapNodeData } from '../lib/layout';
 import { useMindmapStore } from '../store/useMindmapStore';
+import { useAppStore } from '../store/useAppStore';
 
 interface MindmapNodeProps {
   data: MindmapNodeData;
@@ -19,6 +20,7 @@ export const MindmapNode = memo(function MindmapNode({
 
   const { updateNodeText, toggleCollapse, interactionLocked } =
     useMindmapStore();
+  const { chatkit } = useAppStore();
 
   // Use isSelected from data (our manual selection) or React Flow's selected prop
   const selected = data.isSelected || rfSelected;
@@ -78,22 +80,37 @@ export const MindmapNode = memo(function MindmapNode({
     [data.id, toggleCollapse, interactionLocked]
   );
 
+  // Handle analyze with AI
+  const handleAnalyze = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+
+      if (chatkit && !interactionLocked) {
+        const message = `Please analyze the "${data.text}" node`;
+        chatkit.sendUserMessage({ text: message });
+      }
+    },
+    [chatkit, data.text, interactionLocked]
+  );
+
   const nodeStyle = {
-    backgroundColor: selected ? '#2563eb' : data.color, // Blue when selected
-    borderColor: selected ? '#fff' : 'transparent',
-    transform: selected ? 'scale(1.05)' : 'scale(1)',
-    boxShadow: selected ? '0 0 20px rgba(37, 99, 235, 0.6)' : 'none',
+    backgroundColor: data.color,
+    borderColor: selected ? '#ffffff' : 'transparent',
+    borderWidth: selected ? '3px' : '0px',
+    transform: selected ? 'scale(1.08)' : 'scale(1)',
+    boxShadow: selected
+      ? '0 0 0 4px rgba(255, 255, 255, 0.9), 0 0 20px rgba(251, 191, 36, 0.7), 0 8px 24px rgba(0, 0, 0, 0.25)'
+      : '0 2px 8px rgba(0, 0, 0, 0.1)',
   };
 
   return (
     <div
       className={`
-        relative px-4 py-2 rounded-lg text-white font-medium
-        min-w-[100px] max-w-[200px] text-center
+        relative px-4 py-2.5 rounded-xl text-white font-medium
+        min-w-[100px] max-w-[220px] text-center
         transition-all duration-200 cursor-pointer
-        ${selected ? 'ring-4 ring-yellow-400 ring-offset-2 ring-offset-gray-900' : ''}
-        ${data.isRoot ? 'text-lg font-bold' : 'text-sm'}
-        ${interactionLocked ? 'opacity-75 cursor-not-allowed' : 'hover:brightness-110'}
+        ${data.isRoot ? 'text-base font-bold px-5 py-3' : 'text-sm'}
+        ${interactionLocked ? 'opacity-70 cursor-not-allowed' : 'hover:brightness-105'}
       `}
       style={nodeStyle}
       onDoubleClick={handleDoubleClick}
@@ -148,6 +165,28 @@ export const MindmapNode = memo(function MindmapNode({
         position={Position.Right}
         className="!bg-white/50 !w-2 !h-2 !border-0"
       />
+
+      {/* Analyze button - show when selected and not root */}
+      {selected && !data.isRoot && !interactionLocked && (
+        <button
+          onClick={handleAnalyze}
+          className="
+            absolute -bottom-8 left-1/2 -translate-x-1/2
+            flex items-center gap-1 px-2 py-1
+            bg-white dark:bg-gray-800
+            text-purple-600 dark:text-purple-400
+            text-xs font-medium
+            rounded-full shadow-lg
+            border border-purple-200 dark:border-purple-700
+            hover:bg-purple-50 dark:hover:bg-purple-900/50
+            transition-all duration-200
+            whitespace-nowrap
+          "
+        >
+          <Sparkles size={12} />
+          Analyze
+        </button>
+      )}
     </div>
   );
 });

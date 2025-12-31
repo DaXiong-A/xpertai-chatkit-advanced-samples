@@ -49,7 +49,7 @@ An AI-powered mindmap editor built with XpertAI ChatKit SDK. Chat with AI to cre
 
 Import `Mindmap-agents.yaml` into your XpertAI workspace. This configures:
 
-- **Agent**: Mindmap assistant with instructions for managing mindmap nodes
+- **Agent**: Mindmap Assistant with instructions for managing mindmap nodes
 - **ClientToolMiddleware**: `get_selected_nodes` - queries currently selected nodes from UI
 - **ClientEffectMiddleware**: `update_mindmap`, `focus_node`, `highlight_nodes` - updates UI
 

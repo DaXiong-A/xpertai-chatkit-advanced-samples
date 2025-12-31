@@ -27,22 +27,12 @@ export function Toolbar() {
     }
   };
 
-  const buttonClass = `
-    p-2 rounded-lg transition-colors
-    hover:bg-gray-200 dark:hover:bg-gray-700
-    disabled:opacity-50 disabled:cursor-not-allowed
-  `;
-
   return (
-    <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div className="toolbar flex items-center justify-between px-4 py-2.5">
       {/* Left side: Title */}
       <div className="flex items-center gap-2">
-        <h1 className="text-lg font-semibold text-gray-800 dark:text-white">
-          Mindmap Assistant
-        </h1>
-        <span className="text-xs px-2 py-1 rounded bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300">
-          AI-Powered
-        </span>
+        <h1 className="app-title">Mindmap Assistant</h1>
+        <span className="ai-badge">AI</span>
       </div>
 
       {/* Right side: Actions */}
@@ -51,55 +41,55 @@ export function Toolbar() {
         <button
           onClick={handleAddChild}
           disabled={selectedNodeIds.length !== 1 || interactionLocked}
-          className={buttonClass}
+          className="toolbar-btn"
           title="Add child node (select a node first)"
         >
-          <Plus size={20} className="text-gray-600 dark:text-gray-300" />
+          <Plus size={20} className="text-gray-500 dark:text-gray-400" />
         </button>
 
         {/* Delete selected */}
         <button
           onClick={handleDelete}
           disabled={selectedNodeIds.length === 0 || interactionLocked}
-          className={buttonClass}
+          className="toolbar-btn"
           title="Delete selected nodes"
         >
-          <Trash2 size={20} className="text-gray-600 dark:text-gray-300" />
+          <Trash2 size={20} className="text-gray-500 dark:text-gray-400" />
         </button>
 
-        <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2" />
+        <div className="toolbar-divider" />
 
         {/* Fit view */}
         <button
           onClick={fitView}
-          className={buttonClass}
+          className="toolbar-btn"
           title="Fit view"
         >
-          <ZoomIn size={20} className="text-gray-600 dark:text-gray-300" />
+          <ZoomIn size={20} className="text-gray-500 dark:text-gray-400" />
         </button>
 
         {/* Reset */}
         <button
           onClick={resetMindmap}
           disabled={interactionLocked}
-          className={buttonClass}
+          className="toolbar-btn"
           title="Reset to sample mindmap"
         >
-          <RotateCcw size={20} className="text-gray-600 dark:text-gray-300" />
+          <RotateCcw size={20} className="text-gray-500 dark:text-gray-400" />
         </button>
 
-        <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2" />
+        <div className="toolbar-divider" />
 
         {/* Theme toggle */}
         <button
           onClick={toggleTheme}
-          className={buttonClass}
+          className="toolbar-btn"
           title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
         >
           {theme === 'light' ? (
-            <Moon size={20} className="text-gray-600" />
+            <Moon size={20} className="text-gray-500" />
           ) : (
-            <Sun size={20} className="text-gray-300" />
+            <Sun size={20} className="text-gray-400" />
           )}
         </button>
       </div>
