@@ -6,9 +6,10 @@ Starter apps to build with the XpertAI ChatKit SDK.
 
 ### Prerequisites
 
-1. `VITE_CHATKIT_XPERT_ID`: Digital Expert ID from the XpertAI platform.
-2. `XPERTAI_API_KEY`: API Key from the XpertAI platform.
-3. Startup instructions:
+1. Import the file *examples/deep-researcher/xpert-chatkit-deep-researcher.yaml* into the XpertAI platform.
+2. `VITE_CHATKIT_XPERT_ID`: Digital Expert ID from the XpertAI platform.
+3. `XPERTAI_API_KEY`: API Key from the XpertAI platform.
+4. Startup instructions:
 
 ```shell
 $ pnpm install
