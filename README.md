@@ -22,3 +22,15 @@ $ pnpm dev
 
 4. Add the ChatKit Host URL (find it on terminal default is `http://127.0.0.1:5200`) to the `CORS_ALLOW_ORIGINS` list in your XpertAI environment variables.
 5. Open your browser and navigate to `http://127.0.0.1:5173` (default url).
+
+## Showcases
+
+### Deep Researcher
+
+![Deep Researcher](./docs/images/deep-researcher.png)
+
+![Deep Research Report](./docs/images/deep-research-report.png)
+
+### Mindmap Assistant
+
+![Mindmap Assistant](./docs/images/mindmap-assistant.png)
