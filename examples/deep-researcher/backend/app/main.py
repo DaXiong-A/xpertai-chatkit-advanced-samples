@@ -7,6 +7,9 @@ import httpx
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from dotenv import load_dotenv
+
+load_dotenv()
 
 APP_NAME = "Deep Researcher Backend"
 APP_VERSION = "0.1.0"
