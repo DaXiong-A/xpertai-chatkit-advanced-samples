@@ -1,0 +1,115 @@
+team:
+  name: Demo-Fiori
+  type: agent
+  title: FIORI Demo
+  description: null
+  avatar: null
+  starters: null
+  options:
+    position:
+      x: 288.75957948241535
+      y: 186.0519669399824
+    scale: 1.0271074218749998
+    agent:
+      Agent_bcwE0GCvsT:
+        position:
+          x: -60
+          y: -20
+    workflow:
+      Middleware_TzXBiyKid0:
+        position:
+          x: -220
+          y: 200
+  agentConfig: null
+  memory: null
+  summarize: null
+  features: null
+  version: "1"
+  agent:
+    key: Agent_bcwE0GCvsT
+  copilotModel:
+    modelType: llm
+    model: deepseek-chat
+    options:
+      temperature: 0.2
+      maxRetries: 6
+      max_tokens: 8192
+      top_p: 0.8
+      seed: 1234
+      repetition_penalty: 1.1
+  knowledgebases: []
+  toolsets: []
+  tags: []
+nodes:
+  - type: agent
+    key: Agent_bcwE0GCvsT
+    position:
+      x: -60
+      y: -20
+    entity:
+      key: Agent_bcwE0GCvsT
+      name: null
+      title: null
+      description: null
+      avatar: null
+      prompt: ""
+      promptTemplates: null
+      parameters: null
+      outputVariables: null
+      options:
+        vision:
+          enabled: false
+      copilotModel:
+        modelType: llm
+        model: deepseek-chat
+        options:
+          temperature: 0.2
+          maxRetries: 6
+          max_tokens: 512
+          top_p: 1
+          frequency_penalty: 0
+      leaderKey: null
+      collaboratorNames: []
+      toolsetIds: []
+      knowledgebaseIds: []
+    hash: 953ebb875983fa0b65fbd92b72b4e135bbd45234907021f6d39a6e88cc2e4ad6
+  - type: workflow
+    key: Middleware_TzXBiyKid0
+    position:
+      x: 20
+      y: 220
+    entity:
+      type: middleware
+      key: Middleware_TzXBiyKid0
+      title: Middleware
+      provider: ClientEffectMiddleware
+      options:
+        clientEffects:
+          - name: write_todos
+            schema: |-
+              {
+                  "type": "object",
+                  "properties": {
+                      "todos": {
+                          "title": "todos",
+                          "type": "array",
+                          "items": {
+                              "type": "object",
+                              "properties": {
+                                  "content": {
+                                      "description": "todo",
+                                      "type": "string"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+            description: Write todos
+            result: Todos created!
+    hash: f67fca55e45af63668bd5e46dcd770805abcb3067c832bf23d5f46ce19b16a52
+connections:
+  - type: workflow
+    key: Agent_bcwE0GCvsT/Middleware_TzXBiyKid0
+    from: Agent_bcwE0GCvsT
+    to: Middleware_TzXBiyKid0
