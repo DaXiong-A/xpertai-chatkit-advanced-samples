@@ -38,7 +38,7 @@
   TRY.
       lo_http_client->request->set_header_field(
         name  = 'Authorization'
-        value = 'Bearer sk-x-OtL7_mSJOI3yk1LoNYMxhI46ldTABy6FCebF_BuuiYgfCCi_tLJPl93oE97kf3X34EZUu9poRjN5JgW6tKpVvo1sQeAY59uymFJJ' ).
+        value = 'Bearer sk-x-OtL' ).
     CATCH cx_root.
   ENDTRY.
 
